@@ -41,9 +41,11 @@ def moveObj(connection, event):
 
     if not found:
         createTable(connection,engine)
-    site = api.portal.get()
-    api.content.move(
-        source=connection,
-        target=site['replication_connections'],
-        safe_id=True)
-
+    try:
+        site = api.portal.get()
+        api.content.move(
+            source=connection,
+            target=site['replication_connections'],
+            safe_id=True)
+    except:
+        pass
