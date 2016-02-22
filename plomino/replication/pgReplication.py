@@ -8,7 +8,6 @@ import datetime
 
 from plone import api
 from Products.CMFCore.utils import getToolByName
-from iol.gisweb.utils.IolDocument import IolDocument
 
 def getConnection(db):
     
@@ -125,7 +124,10 @@ def saveData(doc,events):
         plominoform = doc.getForm().getFormName(),
         plominodb = doc.getParentDatabase().id,
         url = doc.absolute_url(),
-        review_state = IolDocument(doc).wfState(),
+
+        #TODO SOSTITUIRE CON LA NUOVA GESTIONE DEGLI STATI
+        review_state = "IolDocument(doc).wfState()",
+
         review_history = list(), #json.loads(json.dumps(wf.getInfoFor(doc,'review_history'), default=DateTime.DateTime.ISO,use_decimal=True )),
         iol_owner = roles['iol_owner'],
         iol_viewer = roles['iol_viewer'],

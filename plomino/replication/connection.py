@@ -1,7 +1,7 @@
 from five import grok
 from plone.dexterity.content import Item
 from plone import api
-from zope.lifecycleevent.interfaces import IObjectAddedEvent
+from zope.lifecycleevent.interfaces import IObjectAddedEvent, IObjectModifiedEvent
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy import create_engine
 from sqlalchemy.dialects import postgresql
@@ -33,6 +33,7 @@ def createTable(connection,engine):
     plominoTable.create(engine)
 
 @grok.subscribe(connection, IObjectAddedEvent)
+@grok.subscribe(connection, IObjectModifiedEvent)
 def moveObj(connection, event):
     engine = create_engine(connection.conn_string)
     query = "SELECT count(*) as found FROM information_schema.tables WHERE table_schema='%s' AND table_name='%s'" % (connection.db_schema,connection.db_table)
